@@ -137,6 +137,16 @@
       "name": "Stalker",
       "items": [
         {
+          "name": "mlstalk",
+          "desc": "Simple mlstalk",
+          "path": "/stalker/mlstalk?id=",
+          "status": "ready",
+          "requireKey": false,
+          "params": {
+            "id": "masukkan id nya"
+          }
+        },
+        {
           "name": "Free Fire Stalk",
           "desc": "Simple Free Fire Stalk",
           "path": "/stalker/ffstalk?id=",
