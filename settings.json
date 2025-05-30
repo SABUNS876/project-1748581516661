@@ -122,6 +122,16 @@
           }
         },
         {
+          "name": "Y2mate downloader",
+          "desc": "Download Audio Dan Video Dari y2mate",
+          "path": "/downloader/y2mate?url=",
+          "status": "ready",
+          "requireKey": false,
+          "params": {
+            "url": "url dari youtube"
+          }
+        },
+        {
           "name": "Youtube Audio Downloader",
           "desc": "Download Audio Youtube",
           "path": "/downloader/yta?url=",
