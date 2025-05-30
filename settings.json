@@ -139,7 +139,7 @@
         {
           "name": "mlstalk",
           "desc": "Simple mlstalk",
-          "path": "/stalker/mlstalk?id=",
+          "path": "/stalker/mlstalk?q=",
           "status": "ready",
           "requireKey": false,
           "params": {
