@@ -119,16 +119,6 @@
           "requireKey": false,
           "params": {
             "url": "url dari youtube"
-            }
-        },
-        {
-          "name": "Youtube Audio dan video v2",
-          "desc": "Download Audio dan video youtube melewati y2mate",
-          "path": "/downloader/y2mate?url=",
-          "status": "ready",
-          "requireKey": false,
-          "params": {
-            "url": "url dari youtube"
           }
         },
         {
