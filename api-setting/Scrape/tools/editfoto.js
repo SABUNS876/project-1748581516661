@@ -3,77 +3,91 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = async (req) => {
-    // Validasi input
-    if (!req.files || !req.files.image) {
-        throw new Error('File gambar tidak ditemukan');
-    }
-
-    if (!req.body.prompt) {
-        throw new Error('Prompt custom diperlukan. Contoh: buatkan foto itu lebih estetik');
-    }
-
-    const image = req.files.image;
-    const mime = image.mimetype;
-    const prompt = req.body.prompt;
-
-    if (!/image\/(jpe?g|png)/.test(mime)) {
-        throw new Error(`Format ${mime} tidak didukung! Hanya jpeg/jpg/png.`);
-    }
-
     try {
-        // Proses dengan Gemini AI
-        const genAI = new GoogleGenerativeAI("AIzaSyCfPx5_aLgfwiaNglp1V6iRZhBeYRghINo");
-        const base64Image = (await fs.promises.readFile(image.tempFilePath)).toString("base64");
+        // Validasi input lebih ketat
+        if (!req.files || !req.files.image) {
+            throw new Error('Harap unggah file gambar');
+        }
 
-        const contents = [
+        const image = req.files.image;
+        const prompt = req.body.prompt || 'Perbaiki foto ini';
+
+        // Validasi tipe file
+        const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedMimes.includes(image.mimetype)) {
+            throw new Error('Format file tidak didukung. Gunakan JPG/PNG');
+        }
+
+        // Validasi ukuran file (max 4MB)
+        if (image.size > 4 * 1024 * 1024) {
+            throw new Error('Ukuran file maksimal 4MB');
+        }
+
+        // Inisialisasi Gemini AI
+        const genAI = new GoogleGenerativeAI("AIzaSyCfPx5_aLgfwiaNglp1V6iRZhBeYRghINo");
+        const model = genAI.getGenerativeModel({ 
+            model: "gemini-1.5-flash-latest",
+            generationConfig: {
+                maxOutputTokens: 2048,
+                temperature: 0.5
+            }
+        });
+
+        // Baca file sebagai buffer
+        const imageBuffer = fs.readFileSync(image.tempFilePath);
+        const base64Image = imageBuffer.toString('base64');
+
+        // Siapkan input untuk Gemini
+        const parts = [
             { text: prompt },
             {
                 inlineData: {
-                    mimeType: mime,
+                    mimeType: image.mimetype,
                     data: base64Image
                 }
             }
         ];
 
-        const model = genAI.getGenerativeModel({
-            model: "gemini-2.0-flash-exp-image-generation",
-            generationConfig: {
-                responseModalities: ["Text", "Image"]
-            },
+        // Kirim request ke Gemini
+        const result = await model.generateContent({
+            contents: [{ role: "user", parts }]
         });
 
-        const response = await model.generateContent(contents);
-        let resultImage;
-        let resultText = "";
+        // Proses response
+        const response = result.response;
+        if (!response.candidates || !response.candidates[0]) {
+            throw new Error('Tidak mendapatkan response dari AI');
+        }
 
-        for (const part of response.response.candidates[0].content.parts) {
+        let generatedImage = null;
+        let generatedText = '';
+
+        for (const part of response.candidates[0].content.parts) {
             if (part.text) {
-                resultText += part.text;
+                generatedText += part.text;
             } else if (part.inlineData) {
-                const imageData = part.inlineData.data;
-                resultImage = Buffer.from(imageData, "base64");
+                generatedImage = Buffer.from(part.inlineData.data, 'base64');
             }
         }
 
-        if (resultImage) {
-            return {
-                status: true,
-                result: {
-                    image: resultImage.toString('base64'),
-                    text: resultText,
-                    message: "Edit selesai sesuai permintaan"
-                }
-            };
-        } else {
-            throw new Error("Gagal memproses gambar");
+        if (!generatedImage) {
+            throw new Error('Gagal menghasilkan gambar');
         }
+
+        return {
+            status: true,
+            image: generatedImage.toString('base64'),
+            text: generatedText,
+            mimeType: 'image/png' // Gemini selalu return PNG
+        };
+
     } catch (error) {
-        console.error(error);
-        throw new Error(`Error: ${error.message}`);
+        console.error('Error in editfoto:', error);
+        throw new Error(`Gagal memproses gambar: ${error.message}`);
     } finally {
-        // Bersihkan file temp
-        if (image.tempFilePath) {
-            fs.unlinkSync(image.tempFilePath).catch(console.error);
+        // Bersihkan file temporary
+        if (req.files?.image?.tempFilePath) {
+            fs.unlink(req.files.image.tempFilePath, () => {});
         }
     }
 };
