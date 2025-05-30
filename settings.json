@@ -199,7 +199,7 @@
         {
           "name": "Random Waifu",
           "desc": "Get Random Waifumu",
-          "path": "/random/randomwaifu",
+          "path": "/random/randomwaifu?apikey=",
           "status": "ready",
           "requireKey": false
         }
