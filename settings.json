@@ -201,7 +201,7 @@
           "desc": "Get Random Waifumu",
           "path": "/random/randomwaifu",
           "status": "ready",
-          "requireKey": true
+          "requireKey": false
         }
       ]
     },
