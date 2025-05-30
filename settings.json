@@ -225,6 +225,18 @@
       "name": "Tools",
       "items": [
         {
+      "name": "Edit Foto dengan AI",
+      "desc": "Edit foto dengan Google Gemini AI",
+      "path": "/tools/editfoto",
+      "status": "ready",
+      "requireKey": false,
+      "method": "POST",
+      "params": {
+        "prompt": "Instruksi edit (contoh: buatkan foto lebih estetik)",
+        "image": "File gambar (jpg/png)"
+      }
+        },
+        {
           "name": "Beuty Javascript Code",
           "desc": "Rapikan dan bersihkan codemu",
           "path": "/tools/beautyjs?code=",
