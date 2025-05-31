@@ -226,6 +226,14 @@
       "name": "Tools",
       "items": [
         {
+          "name": "Upscale Image",
+          "desc": "Merapikan Gambar Atau Menajamkan Gambar Agar HD",
+          "path": "/tools/upscale?url=",
+          "status": "ready",
+          "requireKey": false,
+        }
+      },
+      {
           "name": "Beuty Javascript Code",
           "desc": "Rapikan dan bersihkan codemu",
           "path": "/tools/beautyjs?code=",
