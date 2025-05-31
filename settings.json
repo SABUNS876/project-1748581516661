@@ -240,7 +240,7 @@
           "path": "/tools/editfoto",
           "status": "ready",
           "requireKey": false,
-          "method": "POST",
+          "method": "GET",
           "params": {
             "prompt": "Instruksi edit (contoh: buatkan foto lebih estetik)",
             "image": "File gambar (jpg/png)"
@@ -253,7 +253,7 @@
           "status": "ready",
           "requireKey": false,
           "params": {
-            "code": "masukkan foto yang mau dijadiin hd"
+            "url": "masukkan foto yang mau dijadiin hd"
           }
         },
         {
