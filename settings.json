@@ -237,7 +237,7 @@
         {
           "name": "Edit Foto dengan AI",
           "desc": "Edit foto dengan Google Gemini AI",
-          "path": "/tools/editfoto",
+          "path": "/tools/editfoto?url=",
           "status": "ready",
           "requireKey": false,
           "method": "GET",
