@@ -232,8 +232,8 @@
           "status": "ready",
           "requireKey": false,
         }
-      },
-      {
+       },
+       {
           "name": "Beuty Javascript Code",
           "desc": "Rapikan dan bersihkan codemu",
           "path": "/tools/beautyjs?code=",
