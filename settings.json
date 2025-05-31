@@ -251,7 +251,10 @@
           "desc": "Buat Gambar mu Agar Terlihat Lebih HD",
           "path": "/tools/upscale?url=",
           "status": "ready",
-          "requireKey": false
+          "requireKey": false,
+          "params": {
+            "code": "masukkan foto yang mau dijadiin hd"
+          }
         },
         {
           "name": "Beuty Javascript Code",
