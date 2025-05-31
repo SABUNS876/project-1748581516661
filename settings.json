@@ -247,6 +247,12 @@
       }
         },
         {
+          "name": "Upscale Media",
+          "desc": "Buat Gambar mu Agar Terlihat Lebih HD",
+          "path": "/tools/upscale?url="
+      }
+        },
+        {
           "name": "Beuty Javascript Code",
           "desc": "Rapikan dan bersihkan codemu",
           "path": "/tools/beautyjs?code=",
